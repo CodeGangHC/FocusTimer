@@ -24,12 +24,12 @@ public class FocusTimer implements ActionListener {
     String seconds_string = String.format("%02d", seconds);
     String minutes_string = String.format("%02d", minutes);
     String hours_string = String.format("%02d", hours);
-    private boolean alarmActive = false;
-
+  
     Timer timer = new Timer(1000, new ActionListener() { // 1000 milli sec = 1 sec. Passing 1000 milli sec into Action Listener
         @Override
         public void actionPerformed(ActionEvent e) { // define action performed method = what timer is going to do every 1000 milli sec
             elapsedTime -= 1000;
+            isZero();
             hours = (elapsedTime/3600000) % 60;
             minutes = (elapsedTime/60000) % 60;
             seconds = (elapsedTime/1000) % 60;
@@ -184,7 +184,6 @@ public class FocusTimer implements ActionListener {
         hours_string = String.format("%02d", hours);
         timeLabel.setText(hours_string + ":" + minutes_string + ":" + seconds_string);
     }
-
     void reset(){
         timer.stop();
         elapsedTime = 0;
@@ -195,5 +194,11 @@ public class FocusTimer implements ActionListener {
         minutes_string = String.format("%02d", minutes);
         hours_string = String.format("%02d", hours);
         timeLabel.setText(hours_string + ":" + minutes_string + ":" + seconds_string);
+    }
+    void isZero(){
+        if (started && elapsedTime<=0){
+            Toolkit.getDefaultToolkit().beep();
+        }
+
     }
 }
